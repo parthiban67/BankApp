@@ -5,19 +5,19 @@ import java.lang.IllegalArgumentException;
 abstract class Account(private val accountType: AccountType) {
     var accountNumber: String = ""
     var name: String = ""
-        set (field) {
-            if(field.isBlank()){
+        set (value) {
+            if(value.isBlank()){
                 throw IllegalArgumentException("Name can't be blank")
             }
-            name = field;
+            field = value;
         }
 
     var balance: Double = 0.0
-        set (field) {
-            if(field < 0.0){
+        set (value) {
+            if(value < 0.0){
                 throw IllegalArgumentException("Balance can't be below 0");
             }
-            balance = field;
+            field = value;
         }
     val bankName: String = "ABC Bank"
     var branchName: String = ""
