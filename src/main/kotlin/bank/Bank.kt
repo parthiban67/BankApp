@@ -37,6 +37,15 @@ class Bank {
         }
     }
 
+    fun getAccountByNumber(accountNumber: String): Account?{
+        if(!accountMap.containsKey(accountNumber)){
+            throw AccountNotFoundException("$accountNumber is not found in Bank")
+        }
+        return accountMap[accountNumber]?.let {
+            accounts[it]
+        }
+    }
+
     private fun generateAccountNumber(): String{
         var accountNumber = ""
         for( i in 1..15){

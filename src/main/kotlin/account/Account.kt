@@ -34,7 +34,11 @@ abstract class Account(private val accountType: AccountType) {
         balance -= amount;
     }
 
-    fun printAccountType(): Unit{
-        println("Account Type is ${accountType.name}");
+    fun printAccountInfo(): Unit{
+        println("Account Information")
+        println("Account number is $accountNumber")
+        println("Customer name is $name")
+        println("Account Type is ${accountType.name}")
+        println("Current balance is $balance")
     }
 }

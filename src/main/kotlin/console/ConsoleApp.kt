@@ -4,6 +4,7 @@ import account.Account
 import account.AccountFactory
 import account.AccountType
 import bank.Bank
+import exception.AccountNotFoundException
 
 class ConsoleApp {
 
@@ -17,6 +18,7 @@ class ConsoleApp {
         println("3 Withdraw from Account")
         println("4 Credit Account")
         println("5 Transfer to Account")
+        println("6 Account Info")
         println("-1 Exit")
     }
 
@@ -61,8 +63,82 @@ class ConsoleApp {
 
             account?.let{
                 bank.createAccount(it)
-                println("Account created successfully")
+                println("Account ${it.accountNumber} created ")
             }
+        }
+    }
+
+    private fun updateAccount(): Unit{
+        while (true) {
+            print("Proceed with the selected option (y/n): ");
+            val proceed = readln()
+            if (proceed == "n") {
+                return
+            }
+
+            var account:Account? = null
+            var accountNumberStep = false
+            do {
+                println("Enter account number: ")
+                readln().let{
+                    if(it.isNotBlank()){
+                        try {
+                            account = bank.getAccountByNumber(it)
+                            accountNumberStep = true
+                        }catch (ex: AccountNotFoundException){
+                            println("!!! ${ex.message} !!!")
+                        }
+                    }else{
+                        println("!!! Account number can't be blank !!!")
+                    }
+                }
+            }while(!accountNumberStep)
+
+            var nameStep = false
+            do {
+                println("Enter customer name: ")
+                readln().let{
+                    if(it.isNotBlank()){
+                        account?.name = it
+                        nameStep = true;
+                    }else{
+                        println("!!! Customer name can't be blank !!!")
+                    }
+                }
+            }while(!nameStep)
+        }
+    }
+
+    private fun operationNotSupported(): Unit{
+        println("!!! Operation currently not found !!!")
+    }
+
+    private fun accountInfo(): Unit{
+        while (true) {
+            print("Proceed with the selected option (y/n): ");
+            val proceed = readln()
+            if (proceed == "n") {
+                return
+            }
+
+            var account: Account? = null
+            var accountNumberStep = false
+            do {
+                println("Enter account number: ")
+                readln().let {
+                    if (it.isNotBlank()) {
+                        try {
+                            account = bank.getAccountByNumber(it)
+                            accountNumberStep = true
+                        } catch (ex: AccountNotFoundException) {
+                            println("!!! ${ex.message} !!!")
+                        }
+                    } else {
+                        println("!!! Account number can't be blank !!!")
+                    }
+                }
+            } while (!accountNumberStep)
+            account?.printAccountInfo()
         }
     }
 
@@ -73,9 +149,11 @@ class ConsoleApp {
             print("Please enter your option: ")
             when(readln().toInt()){
                 1 -> createNewAccount()
-                2 -> ""
+                2 -> operationNotSupported()
                 3 -> ""
                 4 -> ""
+                5 -> ""
+                6 -> accountInfo()
                 -1 -> shouldRun = false
                 else -> println("!!! Invalid option !!!")
             }
