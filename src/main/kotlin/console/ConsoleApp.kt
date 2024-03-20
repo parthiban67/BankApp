@@ -4,6 +4,7 @@ import bank.Bank
 import console.handler.AccountInfoHandler
 import console.handler.CreateAccountHandler
 import console.handler.OperationNotSupported
+import console.handler.WithdrawHandler
 
 class ConsoleApp {
 
@@ -29,9 +30,9 @@ class ConsoleApp {
             when(readln().toInt()){
                 1 -> CreateAccountHandler().handle(bank)
                 2 -> OperationNotSupported().handle(bank)
-                3 -> ""
-                4 -> ""
-                5 -> ""
+                3 -> WithdrawHandler().handle(bank)
+                4 -> OperationNotSupported().handle(bank)
+                5 -> OperationNotSupported().handle(bank)
                 6 -> AccountInfoHandler().handle(bank)
                 -1 -> shouldRun = false
                 else -> println("!!! Invalid option !!!")

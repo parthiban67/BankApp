@@ -1,5 +1,6 @@
 package account
 
+import exception.InSufficientBalanceException
 import java.lang.IllegalArgumentException;
 
 abstract class Account(private val accountType: AccountType) {
@@ -29,7 +30,7 @@ abstract class Account(private val accountType: AccountType) {
 
     fun debit(amount: Double){
         if(amount > balance){
-            throw IllegalArgumentException("Amount exceeds your balance")
+            throw InSufficientBalanceException("Amount exceeds your balance")
         }
         balance -= amount;
     }
