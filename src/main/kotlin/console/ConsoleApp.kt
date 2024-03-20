@@ -1,10 +1,7 @@
 package console
 
 import bank.Bank
-import console.handler.AccountInfoHandler
-import console.handler.CreateAccountHandler
-import console.handler.OperationNotSupported
-import console.handler.WithdrawHandler
+import console.handler.*
 
 class ConsoleApp {
 
@@ -31,7 +28,7 @@ class ConsoleApp {
                 1 -> CreateAccountHandler().handle(bank)
                 2 -> OperationNotSupported().handle(bank)
                 3 -> WithdrawHandler().handle(bank)
-                4 -> OperationNotSupported().handle(bank)
+                4 -> CreditHandler().handle(bank)
                 5 -> OperationNotSupported().handle(bank)
                 6 -> AccountInfoHandler().handle(bank)
                 -1 -> shouldRun = false
