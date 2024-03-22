@@ -1,6 +1,6 @@
-package console.handler
+package bank.handler
 
-import account.Account
+import bank.account.Account
 import bank.Bank
 import exception.AccountNotFoundException
 
@@ -17,7 +17,7 @@ class TransferHandler: Handler {
             var fromAccount: Account? = null
             var fromAccountNumberStep = false
             do {
-                println("Enter from account number: ")
+                println("Enter from bank.account number: ")
                 readln().let {
                     if (it.isNotBlank()) {
                         try {
@@ -35,7 +35,7 @@ class TransferHandler: Handler {
             var toAccount: Account? = null
             var toAccountNumberStep = false
             do {
-                println("Enter from account number: ")
+                println("Enter from bank.account number: ")
                 readln().let {
                     if (it.isNotBlank()) {
                         try {

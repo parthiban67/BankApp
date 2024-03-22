@@ -1,6 +1,6 @@
-package console.handler
+package bank.handler
 
-import account.Account
+import bank.account.Account
 import bank.Bank
 import exception.AccountNotFoundException
 
@@ -17,7 +17,7 @@ class AccountInfoHandler: Handler {
             var account: Account? = null
             var accountNumberStep = false
             do {
-                println("Enter account number: ")
+                println("Enter bank.account number: ")
                 readln().let {
                     if (it.isNotBlank()) {
                         try {

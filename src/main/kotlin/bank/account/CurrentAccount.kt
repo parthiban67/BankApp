@@ -1,4 +1,4 @@
-package account
+package bank.account
 
 class CurrentAccount: Account(AccountType.CURRENT) {
 

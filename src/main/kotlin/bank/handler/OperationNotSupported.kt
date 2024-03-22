@@ -1,4 +1,4 @@
-package console.handler
+package bank.handler
 
 import bank.Bank
 

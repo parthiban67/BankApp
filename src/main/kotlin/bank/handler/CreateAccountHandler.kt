@@ -1,8 +1,8 @@
-package console.handler
+package bank.handler
 
-import account.Account
-import account.AccountFactory
-import account.AccountType
+import bank.account.Account
+import bank.account.AccountFactory
+import bank.account.AccountType
 import bank.Bank
 
 class CreateAccountHandler: Handler {
@@ -18,7 +18,7 @@ class CreateAccountHandler: Handler {
             var accountTypeStep = false
             var accountType: AccountType?
             do {
-                println("Enter the account type: ")
+                println("Enter the bank.account type: ")
                 for ((i, type) in AccountType.entries.withIndex()) {
                     println("${i + 1} ${type.name}")
                 }

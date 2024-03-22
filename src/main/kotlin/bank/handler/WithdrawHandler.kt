@@ -1,10 +1,11 @@
-package console.handler
+package bank.handler
 
-import account.Account
+import bank.account.Account
 import bank.Bank
 import exception.AccountNotFoundException
+import exception.InSufficientBalanceException
 
-class CreditHandler: Handler {
+class WithdrawHandler: Handler {
 
     override fun handle(bank: Bank) {
         while (true) {
@@ -17,7 +18,7 @@ class CreditHandler: Handler {
             var account: Account? = null
             var accountNumberStep = false
             do {
-                println("Enter account number: ")
+                println("Enter bank.account number: ")
                 readln().let {
                     if (it.isNotBlank()) {
                         try {
@@ -35,7 +36,7 @@ class CreditHandler: Handler {
             var amountStep = false
             var amount = 0.0
             do {
-                println("Enter amount to credit: ")
+                println("Enter amount to withdraw: ")
                 readln().let {
                     if (it.isNotBlank()) {
                         try {
@@ -49,9 +50,14 @@ class CreditHandler: Handler {
                     }
                 }
             } while (!amountStep)
-            account?.credit(amount);
-            println("Amount credited successfully")
-            break
+
+            try{
+                account?.withdraw(amount);
+                println("Amount withdrawn successfully")
+                break
+            }catch (ex: InSufficientBalanceException){
+                println("!!! ${ex.message} !!!")
+            }
         }
     }
 }

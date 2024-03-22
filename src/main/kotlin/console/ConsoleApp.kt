@@ -1,7 +1,7 @@
 package console
 
 import bank.Bank
-import console.handler.*
+import bank.handler.*
 
 class ConsoleApp {
 

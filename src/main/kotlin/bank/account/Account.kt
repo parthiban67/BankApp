@@ -1,4 +1,4 @@
-package account
+package bank.account
 
 import exception.InSufficientBalanceException
 import java.lang.IllegalArgumentException;

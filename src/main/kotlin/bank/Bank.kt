@@ -1,6 +1,6 @@
 package bank
 
-import account.Account
+import bank.account.Account
 import exception.AccountNotFoundException
 import kotlin.random.Random
 
@@ -33,7 +33,7 @@ class Bank {
         accountMap[account.accountNumber]?.let {
             val bAccount = accounts[it]
             bAccount.name = account.name
-            //bAccount.branchName= account.branchName
+            //bAccount.branchName= bank.account.branchName
         }
     }
 
