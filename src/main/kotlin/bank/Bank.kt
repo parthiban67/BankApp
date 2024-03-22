@@ -1,6 +1,8 @@
 package bank
 
 import bank.account.Account
+import bank.account.AccountFactory
+import bank.dto.CreateAccount
 import exception.AccountNotFoundException
 import kotlin.random.Random
 
@@ -9,6 +11,7 @@ class Bank {
     private val accounts = mutableListOf<Account>()
 
     private val accountMap = mutableMapOf<String,Int>()
+    private val accountStore = mutableMapOf<String,Account>()
 
     private val charMap = arrayOfNulls<Char>(10)
     init{
@@ -52,5 +55,17 @@ class Bank {
             accountNumber += charMap[Random.nextInt(0,9)]
         }
         return accountNumber
+    }
+
+    private fun setBankAndBranch(account: Account): Unit{
+        account.bankName = "Kotlin Bank"
+        account.branchName = "Chennai"
+    }
+
+    fun createAccount(createAccount: CreateAccount): Unit{
+        val account: Account = AccountFactory.getAccount(createAccount.accountType)
+        account.accountNumber = generateAccountNumber()
+        setBankAndBranch(account)
+        accountStore[account.accountNumber] = account
     }
 }

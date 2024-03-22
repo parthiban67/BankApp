@@ -1,3 +1,5 @@
 package bank.dto
 
-data class CreateAccount(val customerName: String)
+import bank.account.AccountType
+
+data class CreateAccount(val customerName: String, val accountType: AccountType)

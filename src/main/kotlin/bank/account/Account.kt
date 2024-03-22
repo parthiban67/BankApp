@@ -20,8 +20,8 @@ abstract class Account(private val accountType: AccountType) {
             }
             field = value;
         }
-    val bankName: String = "ABC Bank"
-    var branchName: String = ""
+    lateinit var bankName: String
+    lateinit var branchName: String
     abstract fun withdraw(amount: Double)
 
     fun credit(amount: Double){
