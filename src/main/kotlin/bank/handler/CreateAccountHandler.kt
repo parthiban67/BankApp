@@ -4,6 +4,7 @@ import bank.account.Account
 import bank.account.AccountFactory
 import bank.account.AccountType
 import bank.Bank
+import bank.dto.CreateAccount
 
 class CreateAccountHandler: Handler {
 
@@ -18,7 +19,7 @@ class CreateAccountHandler: Handler {
             var accountTypeStep = false
             var accountType: AccountType?
             do {
-                println("Enter the bank.account type: ")
+                println("Enter the account type: ")
                 for ((i, type) in AccountType.entries.withIndex()) {
                     println("${i + 1} ${type.name}")
                 }
@@ -32,13 +33,13 @@ class CreateAccountHandler: Handler {
                 accountTypeStep = true
             }while(!accountTypeStep)
 
-            val account: Account? = accountType?.let { AccountFactory.getAccount(it) }
             var nameStep = false
+            var customerName: String = ""
             do {
                 println("Enter customer name: ")
                 readln().let{
                     if(it.isNotBlank()){
-                        account?.name = it
+                        customerName = it
                         nameStep = true;
                     }else{
                         println("!!! Customer name can't be blank !!!")
@@ -46,10 +47,9 @@ class CreateAccountHandler: Handler {
                 }
             }while(!nameStep)
 
-            account?.let{
-                bank.createAccount(it)
-                println("Account ${it.accountNumber} created ")
-            }
+            val createAccount = CreateAccount(customerName,accountType as AccountType)
+            bank.createAccount(createAccount)
+            println("Account created successfully")
         }
     }
 }
