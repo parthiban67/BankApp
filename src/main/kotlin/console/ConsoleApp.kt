@@ -29,7 +29,7 @@ class ConsoleApp {
                 2 -> OperationNotSupported().handle(bank)
                 3 -> WithdrawHandler().handle(bank)
                 4 -> CreditHandler().handle(bank)
-                5 -> OperationNotSupported().handle(bank)
+                5 -> TransferHandler().handle(bank)
                 6 -> AccountInfoHandler().handle(bank)
                 -1 -> shouldRun = false
                 else -> println("!!! Invalid option !!!")
