@@ -3,6 +3,7 @@ package bank
 import bank.account.Account
 import bank.account.AccountFactory
 import bank.dto.CreateAccount
+import bank.dto.CreditAccount
 import bank.dto.WithdrawAccount
 import exception.AccountNotFoundException
 import exception.InSufficientBalanceException
@@ -83,5 +84,10 @@ class Bank {
             throw InSufficientBalanceException("Account balance is low")
         }
         account.balance -= withdrawAccount.amount
+    }
+
+    fun creditAccount(creditAccount: CreditAccount): Unit{
+        val account: Account = findAccount(creditAccount.accountNumber)
+        account.balance += creditAccount.amount
     }
 }

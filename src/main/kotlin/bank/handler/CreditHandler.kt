@@ -1,8 +1,7 @@
 package bank.handler
 
-import bank.account.Account
 import bank.Bank
-import exception.AccountNotFoundException
+import bank.dto.CreditAccount
 
 class CreditHandler: Handler {
 
@@ -13,19 +12,14 @@ class CreditHandler: Handler {
             if (proceed == "n") {
                 return
             }
-
-            var account: Account? = null
             var accountNumberStep = false
+            var accountNumber = ""
             do {
-                println("Enter bank.account number: ")
+                println("Enter bank account number: ")
                 readln().let {
                     if (it.isNotBlank()) {
-                        try {
-                            account = bank.getAccountByNumber(it)
-                            accountNumberStep = true
-                        } catch (ex: AccountNotFoundException) {
-                            println("!!! ${ex.message} !!!")
-                        }
+                        accountNumber = it
+                        accountNumberStep = true
                     } else {
                         println("!!! Account number can't be blank !!!")
                     }
@@ -35,7 +29,7 @@ class CreditHandler: Handler {
             var amountStep = false
             var amount = 0.0
             do {
-                println("Enter amount to credit: ")
+                println("Enter amount to withdraw: ")
                 readln().let {
                     if (it.isNotBlank()) {
                         try {
@@ -49,9 +43,15 @@ class CreditHandler: Handler {
                     }
                 }
             } while (!amountStep)
-            account?.credit(amount);
-            println("Amount credited successfully")
-            break
+
+            try{
+                val creditAccount = CreditAccount(accountNumber,amount)
+                bank.creditAccount(creditAccount)
+                println("Amount credited successfully")
+                break
+            }catch (ex: Exception){
+                println("!!! ${ex.message} !!!")
+            }
         }
     }
 }
