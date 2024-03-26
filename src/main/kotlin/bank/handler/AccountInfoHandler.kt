@@ -1,8 +1,6 @@
 package bank.handler
 
-import bank.account.Account
 import bank.Bank
-import exception.AccountNotFoundException
 
 class AccountInfoHandler: Handler {
 
@@ -14,24 +12,24 @@ class AccountInfoHandler: Handler {
                 return
             }
 
-            var account: Account? = null
+            var accountNumber = ""
             var accountNumberStep = false
             do {
-                println("Enter bank.account number: ")
+                println("Enter bank account number: ")
                 readln().let {
                     if (it.isNotBlank()) {
-                        try {
-                            account = bank.getAccountByNumber(it)
-                            accountNumberStep = true
-                        } catch (ex: AccountNotFoundException) {
-                            println("!!! ${ex.message} !!!")
-                        }
+                        accountNumber = it
+                        accountNumberStep = true
                     } else {
                         println("!!! Account number can't be blank !!!")
                     }
                 }
             } while (!accountNumberStep)
-            account?.printAccountInfo()
+            try {
+                bank.printAccount(accountNumber)
+            } catch (ex: Exception) {
+                println("!!! ${ex.message} !!!")
+            }
         }
     }
 }

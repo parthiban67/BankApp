@@ -90,4 +90,9 @@ class Bank {
         val account: Account = findAccount(creditAccount.accountNumber)
         account.balance += creditAccount.amount
     }
+
+    fun printAccount(accountNumber: String): Unit{
+        val account: Account = findAccount(accountNumber)
+        account.printAccountInfo()
+    }
 }
