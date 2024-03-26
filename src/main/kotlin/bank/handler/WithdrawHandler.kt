@@ -1,9 +1,7 @@
 package bank.handler
 
-import bank.account.Account
 import bank.Bank
-import exception.AccountNotFoundException
-import exception.InSufficientBalanceException
+import bank.dto.WithdrawAccount
 
 class WithdrawHandler: Handler {
 
@@ -15,18 +13,14 @@ class WithdrawHandler: Handler {
                 return
             }
 
-            var account: Account? = null
             var accountNumberStep = false
+            var accountNumber = ""
             do {
-                println("Enter bank.account number: ")
+                println("Enter bank account number: ")
                 readln().let {
                     if (it.isNotBlank()) {
-                        try {
-                            account = bank.getAccountByNumber(it)
-                            accountNumberStep = true
-                        } catch (ex: AccountNotFoundException) {
-                            println("!!! ${ex.message} !!!")
-                        }
+                        accountNumber = it
+                        accountNumberStep = true
                     } else {
                         println("!!! Account number can't be blank !!!")
                     }
@@ -52,10 +46,11 @@ class WithdrawHandler: Handler {
             } while (!amountStep)
 
             try{
-                account?.withdraw(amount);
+                val withdrawAccount = WithdrawAccount(accountNumber,amount)
+                bank.withdrawAccount(withdrawAccount)
                 println("Amount withdrawn successfully")
                 break
-            }catch (ex: InSufficientBalanceException){
+            }catch (ex: Exception){
                 println("!!! ${ex.message} !!!")
             }
         }

@@ -3,7 +3,9 @@ package bank
 import bank.account.Account
 import bank.account.AccountFactory
 import bank.dto.CreateAccount
+import bank.dto.WithdrawAccount
 import exception.AccountNotFoundException
+import exception.InSufficientBalanceException
 import kotlin.random.Random
 
 class Bank {
@@ -62,10 +64,24 @@ class Bank {
         account.branchName = "Chennai"
     }
 
+    private fun findAccount(accountNumber: String): Account{
+        return accountStore[accountNumber].let{
+            it ?: throw AccountNotFoundException("Account not found")
+        }
+    }
+
     fun createAccount(createAccount: CreateAccount): Unit{
         val account: Account = AccountFactory.getAccount(createAccount.accountType)
         account.accountNumber = generateAccountNumber()
         setBankAndBranch(account)
         accountStore[account.accountNumber] = account
+    }
+
+    fun withdrawAccount(withdrawAccount: WithdrawAccount): Unit{
+        val account: Account = findAccount(withdrawAccount.accountNumber)
+        if(account.balance < withdrawAccount.amount){
+            throw InSufficientBalanceException("Account balance is low")
+        }
+        account.balance -= withdrawAccount.amount
     }
 }
