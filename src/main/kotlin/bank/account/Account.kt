@@ -1,8 +1,5 @@
 package bank.account
 
-import exception.InSufficientBalanceException
-import java.lang.IllegalArgumentException;
-
 abstract class Account(private val accountType: AccountType) {
     var accountNumber: String = ""
     var name: String = ""
@@ -22,18 +19,6 @@ abstract class Account(private val accountType: AccountType) {
         }
     lateinit var bankName: String
     lateinit var branchName: String
-    abstract fun withdraw(amount: Double)
-
-    fun credit(amount: Double){
-        balance += amount;
-    }
-
-    fun debit(amount: Double){
-        if(amount > balance){
-            throw InSufficientBalanceException("Amount exceeds your balance")
-        }
-        balance -= amount;
-    }
 
     fun printAccountInfo(): Unit{
         println("Account Information")

@@ -12,9 +12,6 @@ import kotlin.random.Random
 
 class Bank {
 
-    private val accounts = mutableListOf<Account>()
-
-    private val accountMap = mutableMapOf<String,Int>()
     private val accountStore = mutableMapOf<String,Account>()
 
     private val charMap = arrayOfNulls<Char>(10)
@@ -22,34 +19,6 @@ class Bank {
         var idx = 0
         for(n in 48..57){
              charMap[idx++] = n.toChar()
-        }
-    }
-
-    fun createAccount(account: Account){
-        account.accountNumber = generateAccountNumber()
-        if(accounts.add(account)){
-            val idx = accounts.size - 1
-            accountMap[account.accountNumber] = idx
-        }
-    }
-
-    fun updateAccount(account: Account){
-        if(!accountMap.containsKey(account.accountNumber)){
-            throw AccountNotFoundException("${account.accountNumber} is not found in Bank")
-        }
-        accountMap[account.accountNumber]?.let {
-            val bAccount = accounts[it]
-            bAccount.name = account.name
-            //bAccount.branchName= bank.account.branchName
-        }
-    }
-
-    fun getAccountByNumber(accountNumber: String): Account?{
-        if(!accountMap.containsKey(accountNumber)){
-            throw AccountNotFoundException("$accountNumber is not found in Bank")
-        }
-        return accountMap[accountNumber]?.let {
-            accounts[it]
         }
     }
 
