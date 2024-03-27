@@ -1,8 +1,7 @@
 package bank.handler
 
-import bank.account.Account
 import bank.Bank
-import exception.AccountNotFoundException
+import bank.dto.TransferAccount
 
 class TransferHandler: Handler {
 
@@ -14,36 +13,28 @@ class TransferHandler: Handler {
                 return
             }
 
-            var fromAccount: Account? = null
+            var fromAccountNumber = ""
             var fromAccountNumberStep = false
             do {
                 println("Enter from bank.account number: ")
                 readln().let {
                     if (it.isNotBlank()) {
-                        try {
-                            fromAccount = bank.getAccountByNumber(it)
-                            fromAccountNumberStep = true
-                        } catch (ex: AccountNotFoundException) {
-                            println("!!! ${ex.message} !!!")
-                        }
+                        fromAccountNumber = it
+                        fromAccountNumberStep = true
                     } else {
                         println("!!! Account number can't be blank !!!")
                     }
                 }
             } while (!fromAccountNumberStep)
 
-            var toAccount: Account? = null
+            var toAccountNumber = ""
             var toAccountNumberStep = false
             do {
                 println("Enter from bank.account number: ")
                 readln().let {
                     if (it.isNotBlank()) {
-                        try {
-                            toAccount = bank.getAccountByNumber(it)
-                            toAccountNumberStep = true
-                        } catch (ex: AccountNotFoundException) {
-                            println("!!! ${ex.message} !!!")
-                        }
+                        toAccountNumber = it
+                        toAccountNumberStep = true
                     } else {
                         println("!!! Account number can't be blank !!!")
                     }
@@ -68,10 +59,14 @@ class TransferHandler: Handler {
                 }
             } while (!amountStep)
 
-            fromAccount?.debit(amount);
-            toAccount?.credit(amount);
-            println("Amount transferred successfully")
-            break
+            try{
+                val transferAccount = TransferAccount(fromAccountNumber,toAccountNumber,amount)
+                bank.transferAccount(transferAccount);
+                println("Amount transferred successfully")
+                break
+            }catch (ex: Exception){
+                println("!!! ${ex.message} !!!")
+            }
         }
     }
 }

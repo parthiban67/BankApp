@@ -4,6 +4,7 @@ import bank.account.Account
 import bank.account.AccountFactory
 import bank.dto.CreateAccount
 import bank.dto.CreditAccount
+import bank.dto.TransferAccount
 import bank.dto.WithdrawAccount
 import exception.AccountNotFoundException
 import exception.InSufficientBalanceException
@@ -94,5 +95,14 @@ class Bank {
     fun printAccount(accountNumber: String): Unit{
         val account: Account = findAccount(accountNumber)
         account.printAccountInfo()
+    }
+
+    fun transferAccount(transferAccount: TransferAccount): Unit{
+        val fromAccount = findAccount(transferAccount.fromAccountNumber)
+        val toAccount = findAccount(transferAccount.toAccountNumber)
+        if(fromAccount.balance < transferAccount.amount){
+            throw InSufficientBalanceException("Account balance is low")
+        }
+        toAccount.balance += transferAccount.amount
     }
 }
