@@ -16,6 +16,7 @@ class ConsoleApp {
         println("4 Credit Account")
         println("5 Transfer to Account")
         println("6 Account Info")
+        println("7 List All Accounts")
         println("-1 Exit")
     }
 
@@ -31,6 +32,7 @@ class ConsoleApp {
                 4 -> CreditHandler().handle(bank)
                 5 -> TransferHandler().handle(bank)
                 6 -> AccountInfoHandler().handle(bank)
+                7 -> ListAccountHandler().handle(bank)
                 -1 -> shouldRun = false
                 else -> println("!!! Invalid option !!!")
             }

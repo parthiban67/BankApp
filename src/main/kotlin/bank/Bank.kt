@@ -105,4 +105,10 @@ class Bank {
         }
         toAccount.balance += transferAccount.amount
     }
+
+    fun listAccounts(): Unit{
+        accountStore.values.forEach {
+            it.printAccountInfo()
+        }
+    }
 }
