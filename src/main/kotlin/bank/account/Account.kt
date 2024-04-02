@@ -1,6 +1,6 @@
 package bank.account
 
-abstract class Account(private val accountType: AccountType) {
+abstract class Account(val accountType: AccountType) {
     var accountNumber: String = ""
     var name: String = ""
         set (value) {

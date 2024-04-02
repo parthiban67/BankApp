@@ -6,13 +6,14 @@ import bank.dto.CreateAccount
 import bank.dto.CreditAccount
 import bank.dto.TransferAccount
 import bank.dto.WithdrawAccount
+import db.AccountRepository
 import exception.AccountNotFoundException
 import exception.InSufficientBalanceException
 import kotlin.random.Random
 
 class Bank {
 
-    private val accountStore = mutableMapOf<String,Account>()
+    private val accountRepository = AccountRepository()
 
     private val charMap = arrayOfNulls<Char>(10)
     init{
@@ -35,48 +36,47 @@ class Bank {
         account.branchName = "Chennai"
     }
 
-    private fun findAccount(accountNumber: String): Account{
-        return accountStore[accountNumber].let{
-            it ?: throw AccountNotFoundException("Account not found")
-        }
-    }
-
     fun createAccount(createAccount: CreateAccount): Unit{
         val account: Account = AccountFactory.getAccount(createAccount.accountType)
         account.accountNumber = generateAccountNumber()
         setBankAndBranch(account)
-        accountStore[account.accountNumber] = account
+        accountRepository.create(account)
     }
 
     fun withdrawAccount(withdrawAccount: WithdrawAccount): Unit{
-        val account: Account = findAccount(withdrawAccount.accountNumber)
+        val account: Account = accountRepository.findByAccountNumber(withdrawAccount.accountNumber)
         if(account.balance < withdrawAccount.amount){
             throw InSufficientBalanceException("Account balance is low")
         }
         account.balance -= withdrawAccount.amount
+        accountRepository.update(account)
     }
 
     fun creditAccount(creditAccount: CreditAccount): Unit{
-        val account: Account = findAccount(creditAccount.accountNumber)
+        val account: Account = accountRepository.findByAccountNumber(creditAccount.accountNumber)
         account.balance += creditAccount.amount
+        accountRepository.update(account)
     }
 
     fun printAccount(accountNumber: String): Unit{
-        val account: Account = findAccount(accountNumber)
+        val account: Account = accountRepository.findByAccountNumber(accountNumber)
         account.printAccountInfo()
     }
 
     fun transferAccount(transferAccount: TransferAccount): Unit{
-        val fromAccount = findAccount(transferAccount.fromAccountNumber)
-        val toAccount = findAccount(transferAccount.toAccountNumber)
+        val fromAccount = accountRepository.findByAccountNumber(transferAccount.fromAccountNumber)
+        val toAccount = accountRepository.findByAccountNumber(transferAccount.toAccountNumber)
         if(fromAccount.balance < transferAccount.amount){
             throw InSufficientBalanceException("Account balance is low")
         }
         toAccount.balance += transferAccount.amount
+        fromAccount.balance -= transferAccount.amount
+        accountRepository.update(fromAccount)
+        accountRepository.update(toAccount)
     }
 
     fun listAccounts(): Unit{
-        accountStore.values.forEach {
+        accountRepository.findAll().forEach {
             it.printAccountInfo()
         }
     }
