@@ -38,6 +38,7 @@ class Bank {
 
     fun createAccount(createAccount: CreateAccount): Unit{
         val account: Account = AccountFactory.getAccount(createAccount.accountType)
+        account.name = createAccount.customerName
         account.accountNumber = generateAccountNumber()
         setBankAndBranch(account)
         accountRepository.create(account)
