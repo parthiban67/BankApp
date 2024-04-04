@@ -29,14 +29,11 @@ class DBManager {
 
     fun update(account: Account): Unit{
         accountStore[account.accountNumber] = account
+        csvFileManager.writeAll(account)
     }
 
     fun select(accountNumber: String): Account{
         return accountStore[accountNumber] ?: throw AccountNotFoundException("Account not found")
-    }
-
-    fun delete(account: Account): Unit{
-        accountStore.remove(account.accountNumber)
     }
 
     fun selectAll(): List<Account> {

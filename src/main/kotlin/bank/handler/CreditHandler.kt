@@ -29,7 +29,7 @@ class CreditHandler: Handler {
             var amountStep = false
             var amount = 0.0
             do {
-                println("Enter amount to withdraw: ")
+                println("Enter amount to credit: ")
                 readln().let {
                     if (it.isNotBlank()) {
                         try {
